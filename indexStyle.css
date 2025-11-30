@@ -13,7 +13,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    
 }
 
 .game {
@@ -31,20 +30,34 @@ body {
     width: 18vmin;
     border-radius: 1rem;
     border: none;
-    box-shadow: 0px 0px 1rem rgb(0,0,0,0.5);
+    box-shadow: 0px 0px 1rem rgba(0,0,0,0.5);
     font-size: 8vmin;
-    color: #b0413e;
     background-color: #e6e2e2;
+    transition: transform 0.2s ease;
 }
 
-#reset-btn 
-{
+.box.clicked {
+    transform: scale(1.1);
+}
+
+.win-box {
+    background-color: yellow;
+    animation: glow 1s infinite alternate;
+}
+
+@keyframes glow {
+    from { box-shadow: 0px 0px 15px yellow; }
+    to { box-shadow: 0px 0px 30px orange; }
+}
+
+#reset-btn {
     padding: 1rem;
     font-size: 1.25rem;
     background-color: #191913;
     color: white;
     border-radius: 1rem;
     border: none;
+    margin-top: 1rem;
 }
 
 #newGame-btn {
@@ -70,5 +83,3 @@ body {
 .hide {
     display: none;
 }
-
-
