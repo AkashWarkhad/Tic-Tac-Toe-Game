@@ -1,10 +1,12 @@
+// Selecting elements
 let boxes = document.querySelectorAll(".box");
-let resetbtn = document.querySelector("#reset-btn");
-let newGamebtn = document.querySelector("#newGame-btn");
+let resetBtn = document.querySelector("#reset-btn");
+let newGameBtn = document.querySelector("#newGame-btn");
 let msgContainer = document.querySelector(".msg-container");
 let msg = document.querySelector("#msg");
 
-const winPattern = [
+// Winning combinations
+const winPatterns = [
     [0, 1, 2],
     [0, 3, 6],
     [0, 4, 8],
@@ -15,78 +17,88 @@ const winPattern = [
     [6, 7, 8]
 ]
 
-let turnO = true //PlayerX & PlayerO
+let isOTurn = true; // true = O, false = X
+
+// -------------------------------
+// Event Listeners
+// -------------------------------
 
 boxes.forEach((box) => {
-    box.addEventListener("click", ()=> {
-        console.log("Box clicked!!");
-        if(turnO){
-            box.innerText = "O";
-            turnO = false;
-        }
-        else
-        {
-            box.innerText = "X";
-            turnO = true;
-        }
+    box.addEventListener("click", () => handleBoxClick(box));
+});
 
-        box.disabled = true;
-        CheckWinner();
-        PrintNoOneWin();
-    })
-})
+resetBtn.addEventListener("click", resetGame);
+newGameBtn.addEventListener("click", resetGame);
 
-const CheckWinner = () => {
-    winPattern.forEach((pat) => {
-        let pos1 = boxes[pat[0]].innerText;
-        let pos2 = boxes[pat[1]].innerText;
-        let pos3 = boxes[pat[2]].innerText;
+// ----------------- MAIN FUNCTIONS -----------------
 
-        if(pos1 != "" && pos2 != "" && pos3 != "")
-        {
-            if(pos1 === pos2 && pos2 === pos3)
-            {
-                ShowWinner(pos1);
-            }
-        }
-    })
-}
-
-const ShowWinner = (winner) => 
+function handleBoxClick(box) 
 {
-    msg.innerText = `Congradulations!!! Winner is ${winner}.`;
-    msgContainer.classList.remove("hide");
-    DisableBoxes();
+  box.innerText = isOTurn ? "O" : "X";
+  box.style.color = isOTurn ? "green" : "red";
+  box.disabled = true;
+
+  isOTurn = !isOTurn;
+
+  if (checkWinner()) return;
+  checkTie();
 }
 
-function PrintNoOneWin() 
+function checkWinner() {
+  for (let pattern of winPatterns) {
+    const [a, b, c] = pattern;
+
+    const val1 = boxes[a].innerText;
+    const val2 = boxes[b].innerText;
+    const val3 = boxes[c].innerText;
+
+    if (val1 && val1 === val2 && val2 === val3) {
+      showWinner(val1);
+      return true;
+    }
+  }
+  return false;
+}
+
+function checkTie() {
+  const isTie = [...boxes].every(box => box.innerText !== "");
+
+  if (isTie) {
+    msg.innerText = "Match Tied — No One Wins!";
+    msgContainer.classList.remove("hide");
+    disableBoxes();
+    resetBtn.style.display = "none";
+  }
+}
+
+
+// -------------------------------
+// UI Update Functions
+// -------------------------------
+
+function showWinner(player) 
 {
-    for(let box of boxes)
-    {
-        if(box.innerText === ""){ return; }
-    }
-    msg.innerText = `Match Tieup, No One Wins!!`
-    msgContainer.classList.remove("hide");
-    DisableBoxes();
+  msg.innerText = `🎉 Congratulations!!! Winner is ${player}`;
+  msgContainer.classList.remove("hide");
+  disableBoxes();
+  resetBtn.style.display = "none";
 }
 
-const DisableBoxes = () => {
-    for(let box in boxes)
-    {
-        box.disabled = true;
-    }
-
-    resetbtn.disabled = true;
+function disableBoxes() 
+{
+  boxes.forEach(box => box.disabled = true);
+  resetBtn.disabled = true;
 }
 
-const enableBoxes = () =>{
-    for(let box of boxes){
-        box.disabled = false;
-        box.innerText = "";
-    }
+function resetGame() {
+  boxes.forEach(box => {
+    box.innerText = "";
+    box.disabled = false;
+  });
 
-    msgContainer.classList.add("hide");
+  isOTurn = true;
+
+  msgContainer.classList.add("hide");
+  resetBtn.style.display = "";
+  resetBtn.disabled = false;
 }
-
-resetbtn.addEventListener("click", enableBoxes);
-newGamebtn.addEventListener("click", enableBoxes);
