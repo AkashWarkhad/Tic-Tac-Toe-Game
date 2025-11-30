@@ -7,10 +7,15 @@ This project helped me practice DOM manipulation, event handling, and basic game
 
 ## 🚀 Live Demo  
 ### ▶️ Game Board  
-![Game Screenshot](./Images/game-view.png)
+![Game Screenshot](Images/Game-View.png)
+
+![Game Screenshot](Images/Game-On.png)
 
 ### 🏆 Winner Popup  
-![Winner Screenshot](./screenshots/winner-popup.png)
+![Winner Screenshot](Images/Winner.png)
+
+### 🏆 Match Tied  
+![Match Tied Screenshot](Images/Match-Tied.png)
 ---
 
 ## ⭐ Features
