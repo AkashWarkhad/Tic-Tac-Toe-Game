@@ -17,7 +17,18 @@ const winPatterns = [
     [6, 7, 8]
 ]
 
-let isOTurn = true; // true = O, false = X
+
+// 1. Using Random function which Generates the values in between 0 & 1
+let isOTurn = Math.random() >= 0.5; // >= 0.5 means O turn else X turn
+
+// 2. Using Random + Floor to select largest value 
+isOTurn = Math.floor(Math.random() * 2) == 0 ? true : false; // true = O, false = X
+
+// 3. Using an array
+isOTurn = ["O", "X"] [Math.floor(Math.random() * 2)] === "O";
+
+// 4. Using Boolean()
+isOTurn = Boolean(Math.round(Math.random()));
 
 // -------------------------------
 // Event Listeners
